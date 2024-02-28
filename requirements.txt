@@ -1,5 +1,4 @@
-lskdjfls.sdlfkjsd
-sldfjlksdjflaksdjfla
-asdlfjsldkfjklsdjflasd
-asdlfajsdlkfjalskdjf
-asdlfjasldkf
+ipykernel
+python-dotenv
+requests
+pandas
