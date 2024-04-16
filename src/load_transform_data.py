@@ -5,20 +5,33 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 try:
     # for when its called as a module from a jupyter notebook
-    from .paths import RAW_DATA_DIR, HISTORICAL_OHLC
+    from .paths import NEW_OHLC, HISTORICAL_OHLC
 except ImportError:
     # for when its run on its own
-    from paths import RAW_DATA_DIR, HISTORICAL_OHLC
+    from paths import NEW_OHLC, HISTORICAL_OHLC
 import time
 import pandas as pd
 import pandas_ta as ta
+import glob
+import os
+
 
 # RAW_DATA_DIR = '../data/raw'
 # HISTORICAL_OHLC = '../data/raw/historical_ohlc'
 
-def download_historical_ohlc_from_coinlore():
+def get_new_ethereum_ohlc():
+    """
+    Downloads Ethereum OHLC data from Coinlore, renames the file based on the date range within the data, 
+    and returns the data as a DataFrame.
+
+    This function navigates to the Coinlore Ethereum historical data page, downloads the OHLC data as a CSV,
+    then reads the CSV to determine the date range, renames the file accordingly, and returns the data as a DataFrame.
+    
+    Returns:
+        DataFrame: A Pandas DataFrame containing the downloaded OHLC data.
+    """
     chrome_options = Options()
-    prefs = {"download.default_directory": str(RAW_DATA_DIR)}
+    prefs = {"download.default_directory": str(NEW_OHLC)}
     chrome_options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome(options=chrome_options)
 
@@ -26,21 +39,45 @@ def download_historical_ohlc_from_coinlore():
         driver.get('https://www.coinlore.com/coin/ethereum/historical-data')
 
         # Wait for the download button to be clickable and click it
-        WebDriverWait(driver, 4).until(
+        WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//button[@onclick="tableToCSV()"]'))
         ).click()
 
-        time.sleep(3)
+        # Allow time for the download to complete
+        time.sleep(5)
+
+        # Locate the downloaded file
+        list_of_files = glob.glob(os.path.join(NEW_OHLC, '*.csv')) # * means all if need specific format then *.csv
+        latest_file = max(list_of_files, key=os.path.getctime)
+
+        # Read the CSV file into a DataFrame
+        df = pd.read_csv(latest_file)
+        
+        # Extract the start and end dates
+        start_date = df['Date'].iloc[-1].replace('/', '')
+        end_date = df['Date'].iloc[0].replace('/', '')
+        
+        # Rename the file
+        new_filename = os.path.join(NEW_OHLC, f"ethereum_{start_date}_{end_date}.csv")
+        os.rename(latest_file, new_filename)
+
+        return df
+    
     except Exception as e:
         print(f"An error occurred: {e}")
+        return pd.DataFrame()  # Return an empty DataFrame in case of an error
+    
     finally:
         driver.quit()
 
 
+
 def transform_ohlc_to_features_target():
+    # processes a raw data file taken from coinlore and returns a dataframe that is ready for uploading into hopsworks.
 
     ##### Load the raw OHLC data and clean out the $ signs and shit #####
     df = pd.read_csv(HISTORICAL_OHLC / 'ethereum.csv', parse_dates=True)
+
     def convert_value(value):
         """
         Converts a string value to a float. Removes $ signs, and converts
@@ -91,4 +128,6 @@ def transform_ohlc_to_features_target():
     # Hopsworks needs event_time feature to be datetime type, not string
     df['date'] = pd.to_datetime(df['date'])
     
+    df.to_csv('../data/transformed/ethereum.csv', index=False)
+
     return df
