@@ -7,7 +7,6 @@ on: push
 
 env:
   PYTHON_VERSION: 3.9
-
 jobs:
   feature_pipeline:
     runs-on: ubuntu-latest
