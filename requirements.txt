@@ -1,8 +1,0 @@
-ipykernel
-python-dotenv
-requests
-pandas
-pyarrow
-scikit-learn
-ccxt
-pandas_ta
