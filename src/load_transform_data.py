@@ -37,10 +37,25 @@ def get_new_ethereum_ohlc():
 
     try:
         driver.get('https://www.coinlore.com/coin/ethereum/historical-data')
-        WebDriverWait(driver, 10).until(
+        # Wait for the download button to be present in the DOM
+        download_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//button[@onclick="tableToCSV()"]'))
+        )
+
+        # Scroll the download button into view using JavaScript
+        driver.execute_script("arguments[0].scrollIntoView();", download_button)
+
+        # Wait for the download button to be clickable
+        download_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//button[@onclick="tableToCSV()"]'))
-        ).click()
-        time.sleep(15)  # Wait for the download to complete
+        )
+
+        # Click the download button
+        download_button.click()
+
+        # Make sure to wait for download
+        time.sleep(15)
+
 
         # Locate the downloaded file
         list_of_files = glob.glob(os.path.join(NEW_OHLC, '*.csv')) # * means all if need specific format then *.csv
@@ -89,12 +104,23 @@ def get_new_ethereum_ohlc1():
     try:
         driver.get('https://www.coinlore.com/coin/ethereum/historical-data')
 
-        # Wait for the download button to be clickable and click it
-        WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, '//button[@onclick="tableToCSV()"]'))
-        ).click()
+        # Wait for the download button to be present in the DOM
+        download_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//button[@onclick="tableToCSV()"]'))
+        )
 
-        # Allow time for the download to complete
+        # Scroll the download button into view using JavaScript
+        driver.execute_script("arguments[0].scrollIntoView();", download_button)
+
+        # Wait for the download button to be clickable
+        download_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//button[@onclick="tableToCSV()"]'))
+        )
+
+        # Click the download button
+        download_button.click()
+
+        # Make sure to wait for download
         time.sleep(15)
 
         # Locate the downloaded file
