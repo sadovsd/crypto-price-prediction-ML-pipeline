@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 try:
     # for when its called as a module from a jupyter notebook
     from .paths import NEW_OHLC, HISTORICAL_OHLC
@@ -20,6 +21,49 @@ import os
 # HISTORICAL_OHLC = '../data/raw/historical_ohlc'
 
 def get_new_ethereum_ohlc():
+    # Setup Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+    chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+    chrome_options.add_experimental_option("prefs", {"download.default_directory": str(NEW_OHLC)})
+
+    # Set the path to Chromedriver
+    service = Service(executable_path="/path/to/chromedriver")
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+
+    try:
+        driver.get('https://www.coinlore.com/coin/ethereum/historical-data')
+        WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//button[@onclick="tableToCSV()"]'))
+        ).click()
+        time.sleep(5)  # Wait for the download to complete
+
+        # Locate the downloaded file
+        list_of_files = glob.glob(str(download_dir / '*.csv'))
+        latest_file = max(list_of_files, key=os.path.getctime)
+
+        # Load the data into a DataFrame
+        df = pd.read_csv(latest_file)
+
+        # Extract the start and end dates
+        start_date = df['Date'].iloc[-1].replace('/', '')
+        end_date = df['Date'].iloc[0].replace('/', '')
+        
+        # Rename the file
+        new_filename = download_dir / f"ethereum_{start_date}_{end_date}.csv"
+        os.rename(latest_file, new_filename)
+
+        return df
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return pd.DataFrame()  # Return an empty DataFrame in case of an error
+
+    finally:
+        driver.quit()
+
+def get_new_ethereum_ohlc1():
     """
     Downloads Ethereum OHLC data from Coinlore, renames the file based on the date range within the data, 
     and returns the data as a DataFrame.
@@ -33,6 +77,9 @@ def get_new_ethereum_ohlc():
     chrome_options = Options()
     prefs = {"download.default_directory": str(NEW_OHLC)}
     chrome_options.add_experimental_option("prefs", prefs)
+    chrome_options.add_argument("--headless")  # Essential for GitHub Actions
+    chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
     driver = webdriver.Chrome(options=chrome_options)
 
     try:
