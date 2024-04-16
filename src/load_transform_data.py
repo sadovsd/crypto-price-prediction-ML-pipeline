@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 try:
     # for when its called as a module from a jupyter notebook
     from .paths import NEW_OHLC, HISTORICAL_OHLC
@@ -19,6 +20,7 @@ import os
 
 # RAW_DATA_DIR = '../data/raw'
 # HISTORICAL_OHLC = '../data/raw/historical_ohlc'
+
 
 def get_new_ethereum_ohlc():
     # Setup Chrome options
@@ -116,8 +118,6 @@ def get_new_ethereum_ohlc1():
     
     finally:
         driver.quit()
-
-
 
 def transform_ohlc_to_features_target():
     # processes a raw data file taken from coinlore and returns a dataframe that is ready for uploading into hopsworks.
