@@ -32,7 +32,9 @@ def get_new_ethereum_ohlc():
     chrome_options.add_experimental_option("prefs", {"download.default_directory": str(NEW_OHLC)})
 
     # Set the path to Chromedriver
-    service = Service(executable_path="/usr/local/bin/chromedriver")
+    # service = Service(executable_path="/usr/local/bin/chromedriver")
+    service = Service(executable_path="/path/to/driver")
+
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
@@ -81,7 +83,7 @@ def get_new_ethereum_ohlc():
     finally:
         driver.quit()
 
-def get_new_ethereum_ohlc1():
+def get_new_ethereum_ohlc_2():
     """
     Downloads Ethereum OHLC data from Coinlore, renames the file based on the date range within the data, 
     and returns the data as a DataFrame.
