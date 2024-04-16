@@ -31,7 +31,7 @@ def get_new_ethereum_ohlc():
     chrome_options.add_experimental_option("prefs", {"download.default_directory": str(NEW_OHLC)})
 
     # Set the path to Chromedriver
-    service = Service(executable_path="/path/to/chromedriver")
+    service = Service(executable_path="/usr/local/bin/chromedriver")
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
