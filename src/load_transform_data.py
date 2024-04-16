@@ -40,7 +40,7 @@ def get_new_ethereum_ohlc():
         time.sleep(5)  # Wait for the download to complete
 
         # Locate the downloaded file
-        list_of_files = glob.glob(str(download_dir / '*.csv'))
+        list_of_files = glob.glob(os.path.join(NEW_OHLC, '*.csv')) # * means all if need specific format then *.csv
         latest_file = max(list_of_files, key=os.path.getctime)
 
         # Load the data into a DataFrame
@@ -51,7 +51,7 @@ def get_new_ethereum_ohlc():
         end_date = df['Date'].iloc[0].replace('/', '')
         
         # Rename the file
-        new_filename = download_dir / f"ethereum_{start_date}_{end_date}.csv"
+        new_filename = os.path.join(NEW_OHLC, f"ethereum_{start_date}_{end_date}.csv")
         os.rename(latest_file, new_filename)
 
         return df
