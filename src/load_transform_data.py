@@ -28,6 +28,7 @@ def get_new_ethereum_ohlc():
     chrome_options.add_argument("--headless")  # Run Chrome in headless mode
     chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
     chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+    chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_experimental_option("prefs", {"download.default_directory": str(NEW_OHLC)})
 
     # Set the path to Chromedriver
@@ -39,7 +40,7 @@ def get_new_ethereum_ohlc():
         WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//button[@onclick="tableToCSV()"]'))
         ).click()
-        time.sleep(5)  # Wait for the download to complete
+        time.sleep(15)  # Wait for the download to complete
 
         # Locate the downloaded file
         list_of_files = glob.glob(os.path.join(NEW_OHLC, '*.csv')) # * means all if need specific format then *.csv
@@ -81,6 +82,7 @@ def get_new_ethereum_ohlc1():
     chrome_options.add_experimental_option("prefs", prefs)
     chrome_options.add_argument("--headless")  # Essential for GitHub Actions
     chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
+    chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
     driver = webdriver.Chrome(options=chrome_options)
 
@@ -93,7 +95,7 @@ def get_new_ethereum_ohlc1():
         ).click()
 
         # Allow time for the download to complete
-        time.sleep(5)
+        time.sleep(15)
 
         # Locate the downloaded file
         list_of_files = glob.glob(os.path.join(NEW_OHLC, '*.csv')) # * means all if need specific format then *.csv
