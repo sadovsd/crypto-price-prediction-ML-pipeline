@@ -33,9 +33,13 @@ jobs:
         CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d'.' -f1)
         echo "Major Chrome version: $CHROME_MAJOR_VERSION"
         CHROME_DRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
+        if [ -z "$CHROME_DRIVER_VERSION" ]; then
+        echo "Failed to fetch ChromeDriver version."
+        exit 1
+        fi
         echo "ChromeDriver version to download: $CHROME_DRIVER_VERSION"
-        wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
-        unzip chromedriver_linux64.zip -d ~/
+        wget -q "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip" -O chromedriver_linux64.zip || { echo "Failed to download ChromeDriver."; exit 1; }
+        unzip -o chromedriver_linux64.zip -d ~/
         sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
         sudo chown root:root /usr/local/bin/chromedriver
         sudo chmod 0755 /usr/local/bin/chromedriver
