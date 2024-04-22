@@ -3,3 +3,4 @@ pandas_ta
 python-dotenv
 hopsworks
 requests
+joblib
