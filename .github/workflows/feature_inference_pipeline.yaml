@@ -1,4 +1,4 @@
-name: ethereum-returns-feature-inference-pipeline
+name: feature-pipeline
 
 on:
   schedule:
