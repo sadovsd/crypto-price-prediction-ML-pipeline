@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import joblib
+from datetime import datetime, timedelta
 
 
 load_dotenv('../.env')
@@ -54,6 +55,55 @@ def pull_data(feature_group_name, feature_group_version, feature_view_name, feat
     data = data.sort_values(by='date', ascending=True)
 
     # data = feature_view.create_training_data()
+
+    return data
+
+def pull_last_row(feature_group_name, feature_group_version, feature_view_name, feature_view_version):
+    project = hopsworks.login(
+        project=PROJECT_NAME,
+        api_key_value=HOPSWORKS_API_KEY
+    )
+
+    feature_store = project.get_feature_store()
+
+    feature_group = feature_store.get_or_create_feature_group(
+        name=feature_group_name,
+        version=feature_group_version,
+        description="Historical daily ethereum OHLC time series",
+        primary_key = ['date'],
+        event_time='date'
+    )
+
+    # create feature view if it doesn't exist yet
+    try:
+        feature_store.create_feature_view(
+            name=feature_view_name,
+            version=feature_view_version,
+            query=feature_group.select_all()
+        )
+    except:
+        print('Feature view already existed. Skip creation.')
+    
+    feature_view = feature_store.get_feature_view(
+        name=feature_view_name,
+        version=feature_view_version
+    )
+
+    # Assume current_date is today's date, you can also set it as datetime.now()
+    current_date = datetime.now()
+
+    # Calculate the start and end times for "yesterday"
+    fetch_data_from = current_date - timedelta(days=1)
+    fetch_data_to = current_date - timedelta(days=1)
+
+    # Set start_time to the beginning of yesterday (00:00)
+    start_time = datetime(fetch_data_from.year, fetch_data_from.month, fetch_data_from.day, 0, 0, 0)
+
+    # Set end_time to the end of yesterday (23:59:59)
+    end_time = datetime(fetch_data_to.year, fetch_data_to.month, fetch_data_to.day, 23, 59, 59)
+
+    # Fetch data using the feature store's get_batch_data method, with precise start and end times
+    data = feature_view.get_batch_data(start_time=start_time, end_time=end_time)
 
     return data
 
