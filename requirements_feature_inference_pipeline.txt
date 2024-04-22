@@ -4,4 +4,4 @@ python-dotenv
 hopsworks
 requests
 joblib
-sklearn
+scikit-learn
