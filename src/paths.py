@@ -8,7 +8,7 @@ HISTORICAL_OHLC = RAW_DATA_DIR / 'historical_ohlc'
 NEW_OHLC = RAW_DATA_DIR / 'new_ohlc'
 TRANSFORMED_DATA_DIR = PARENT_DIR / 'data' / 'transformed'
 DATA_CACHE_DIR = PARENT_DIR / 'data' / 'cache'
-# MODELS_DIR = PARENT_DIR / 'models'
+MODELS_DIR = PARENT_DIR / 'models'
 
 if not Path(DATA_DIR).exists():
     os.mkdir(DATA_DIR)
@@ -25,8 +25,8 @@ if not Path(NEW_OHLC).exists():
 if not Path(TRANSFORMED_DATA_DIR).exists():
     os.mkdir(TRANSFORMED_DATA_DIR)
 
-# if not Path(MODELS_DIR).exists():
-#     os.mkdir(MODELS_DIR)
+if not Path(MODELS_DIR).exists():
+    os.mkdir(MODELS_DIR)
 
 if not Path(DATA_CACHE_DIR).exists():
     os.mkdir(DATA_CACHE_DIR)
