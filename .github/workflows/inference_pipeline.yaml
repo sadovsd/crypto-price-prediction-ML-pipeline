@@ -1,34 +1,35 @@
-# name: inference-pipeline
+name: inference-pipeline
 
-# on:
-#   workflow_run:
-#     workflows: ["feature-pipeline"]
-#     types:
-#       - completed
+on:
+  # inference pipeline will run when the feature pipeline is completed
+  workflow_run:
+    workflows: ["feature-pipeline"]
+    types:
+      - completed
 
-#   workflow_dispatch:
+  workflow_dispatch:
 
-# env:
-#   PYTHON_VERSION: 3.9
-# jobs:
-#   feature_pipeline:
-#     runs-on: ubuntu-latest
+env:
+  PYTHON_VERSION: 3.9
+jobs:
+  feature_pipeline:
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - uses: actions/checkout@v3
+    steps:
+    - uses: actions/checkout@v3
 
-#     - name: Setup Python 3.9
-#       uses: actions/setup-python@v4
-#       with:
-#         python-version: ${{ env.PYTHON_VERSION }}
+    - name: Setup Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
 
-#     - name: Install Dependencies
-#       run: |
-#         python -m pip install --upgrade pip
-#         pip install -r requirements_inference_pipeline.txt
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements_inference_pipeline.txt
 
-#     - name: Execute Python workflows from bash script
-#       env:
-#         HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
-#         HOPSWORKS_PROJECT_NAME: ${{ secrets.HOPSWORKS_PROJECT_NAME }}
-#       run: jupyter nbconvert --to notebook --execute notebooks/06_ohlc_inference_pipeline.ipynb
+    - name: Execute Python workflows from bash script
+      env:
+        HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
+        HOPSWORKS_PROJECT_NAME: ${{ secrets.HOPSWORKS_PROJECT_NAME }}
+      run: jupyter nbconvert --to notebook --execute notebooks/08_ohlc_inference_pipeline.ipynb
