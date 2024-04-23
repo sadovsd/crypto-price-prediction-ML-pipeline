@@ -2,8 +2,8 @@ name: feature-pipeline
 
 on:
   schedule:
-    # run at minute 30 of the 0th hour. 0:30 UTC = 8:30PM EST
-    - cron: '30 0 * * *'
+    # Run at 0:00 UTC, which is 8:00PM EST
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 env:
