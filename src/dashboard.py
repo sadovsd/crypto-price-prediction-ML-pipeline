@@ -3,51 +3,59 @@ import streamlit as st
 import pandas as pd
 from dotenv import load_dotenv
 import pandas as pd
-from models_and_validation import get_precision_score_via_backtest
-from sklearn.ensemble import RandomForestClassifier
-from hopsworks_connections import pull_data, pull_model
+from hopsworks_connections import pull_data
 from matplotlib import pyplot as plt
+import pytz
+
+
+### streamlit run src/dashboard.py
 
 
 st.set_page_config(layout="wide")
 
-current_date = pd.to_datetime(datetime.utcnow(), utc=True).floor('H')
-st.title(f'Ethereum Returns Forcasting $$$$')
-st.header(f'{current_date} UTC')
+
+# Convert UTC to EST
+current_date_utc = pd.to_datetime(datetime.utcnow(), utc=True).floor('T')
+est = pytz.timezone('America/New_York')
+current_date_est = current_date_utc.tz_convert(est)
+# Format the date string as MM-DD-YYYY, HH:MM AM/PM
+formatted_date = current_date_est.strftime('%m-%d-%Y, %I:%M %p')
+
+# Display the title and the date header
+st.title('Ethereum Returns Forecasting')
+st.header(f'{formatted_date} EST')
 
 progress_bar = st.sidebar.header('⚙️ Working Progress')
 progress_bar = st.sidebar.progress(0)
-N_STEPS = 4
+N_STEPS = 1
+
+with st.spinner(text="Fetching model predictions from the store"):
+    predictions_df = pull_data('eth_ohlc_predictions', 1, 'eth_ohlc_predictions_view', 1)
+    predictions_df['date'] = pd.to_datetime(predictions_df['date']).dt.date
+    st.sidebar.write('✅ Model predictions arrived')
+    progress_bar.progress(1/N_STEPS)
 
 
-##### Get the full data from hopsworks, which already includesd the predicttion for tomorrow
-eth_ohlc = pull_data('transformed_ethereum_ohlc', 1, 'view1', 1)
-eth_ohlc['date'] = pd.to_datetime(eth_ohlc['date'])
-eth_ohlc.set_index('date', inplace=True)
-
-print(eth_ohlc.tail())
-
+##### write predictions
+# last_date = predictions_df['date'].iloc[-1].strftime('%m/%d/%Y')
+last_date = (pd.to_datetime(predictions_df['date'].iloc[-1]) + pd.Timedelta(days=1)).strftime('%m/%d/%Y')
+st.markdown(f"### Random Forest Model Predictions for {last_date}:")
+st.markdown(f"#### 1.0% returns - {predictions_df['pred_tmw_1_0_percent_increase_binary'].iloc[-1]}", unsafe_allow_html=True)
 
 ##### Plot ethereum close price time series, and color code our predictions #####
-end_date = pd.to_datetime(datetime.utcnow(), utc=True).floor('H')
-start_date = end_date - pd.Timedelta(weeks=2)
-filtered_data = eth_ohlc.loc[start_date:end_date]
+# Create a shifted column for 'tmw_avg_high_close' to represent the previous day's values
+predictions_df['prev_tmw_avg_high_close'] = predictions_df['tmw_avg_high_close'].shift(1)
+# Filter the DataFrame for the last two weeks
+last_two_weeks_data = predictions_df.tail(14)
 
-# color = 'red' if prediction[0] == 0 else 'green'
-# plt.figure(figsize=(10, 5))
-# # Plot all data points in grey
-# plt.plot(filtered_data.index, filtered_data['close'], marker='o', linestyle='-', color='grey', label='Training Data')
-# # Highlight the most recent data point with the predictive color
-# last_date = filtered_data.index[-1]
-# last_close = filtered_data['close'].iloc[-1]
-# plt.plot(last_date, last_close, marker='o', markersize=10, color=color, label='Lower Predicted Close Price Tomorrow' if color == 'red' else 'Higher Predicted Close Price Tomorrow')
-# plt.title('Ethereum Close Price Over the Last Two Weeks')
-# plt.xlabel('Date')
-# plt.ylabel('Close Price')
-# plt.grid(True)
-# plt.xticks(rotation=45)
-# # Add a legend to the plot
-# plt.legend()
-# plt.tight_layout()
-# plt.show()
-# st.pyplot(plt)
+fig, ax = plt.subplots(figsize=(10, 5))
+plt.plot(last_two_weeks_data['date'], last_two_weeks_data['close'], label='Close', marker='o', linestyle='-')
+plt.plot(last_two_weeks_data['date'], last_two_weeks_data['prev_tmw_avg_high_close'], label='(High + Close) / 2', marker='o', linestyle='--')
+plt.title('Ethereum Prices Over Past 2 Weeks')
+plt.xlabel('Date')
+plt.ylabel('Price')
+plt.xticks(rotation=45)
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+st.pyplot(fig)

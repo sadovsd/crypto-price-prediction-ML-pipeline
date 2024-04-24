@@ -1,12 +1,21 @@
 name: inference-pipeline
 
-on:
-  # inference pipeline will run when the feature pipeline is completed
-  workflow_run:
-    workflows: ["feature-pipeline"]
-    types:
-      - completed
+# on:
+#   # inference pipeline will run when the feature pipeline is completed
+#   workflow_run:
+#     workflows: ["feature-pipeline"]
+#     types:
+#       - completed
 
+#   workflow_dispatch:
+
+
+# Running right after the feature pipeline is problematic because there is a lag in Hopsworks being updated, so I 
+# run this inference pipeline 30 minutes after feature pipeline to be sure that new data will be pulled
+on:
+  schedule:
+    # Run at 0:30 UTC, which is 8:30PM EST
+    - cron: '30 0 * * *'
   workflow_dispatch:
 
 env:
@@ -32,4 +41,4 @@ jobs:
       env:
         HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
         HOPSWORKS_PROJECT_NAME: ${{ secrets.HOPSWORKS_PROJECT_NAME }}
-      run: jupyter nbconvert --to notebook --execute notebooks/08_ohlc_inference_pipeline.ipynb
+      run: jupyter nbconvert --to notebook --execute notebooks/09_ohlc_inference_pipeline.ipynb
