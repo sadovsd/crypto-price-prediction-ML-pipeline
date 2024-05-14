@@ -85,7 +85,18 @@ def pull_model(model_name, model_version):
     )  
 
     model_dir = model_specs.download()
-    model = joblib.load(Path(model_dir)  / f'{model_name}.pkl')
+
+
+    import logging
+
+    logging.basicConfig(level=logging.DEBUG)
+
+    try:
+        model = joblib.load(Path(model_dir) / f'{model_name}.pkl')
+    except ModuleNotFoundError as e:
+        logging.error(f"Failed to load model due to missing module: {e.name}")
+        raise
+
 
     return model, model_specs
 

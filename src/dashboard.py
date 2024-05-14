@@ -15,7 +15,6 @@ import matplotlib.patches as mpatches
 
 ### streamlit run src/dashboard.py
 
-
 st.set_page_config(layout="wide")
 
 ##### Make sidebar
