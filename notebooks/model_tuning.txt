@@ -1,0 +1,229 @@
+num_leaves_values = [15, 31, 45]
+max_depth_values = [4, 6, 8]
+learning_rate_values = [0.005, 0.01, 0.05]
+
+{'iterations': 100, 'learning_rate': 0.01, 'depth': 3, 'precision_score': 0.6842105263157895, 'num positive predictions': prediction
+False    1966
+True       95
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.01, 'depth': 4, 'precision_score': 0.6239316239316239, 'num positive predictions': prediction
+False    1944
+True      117
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.01, 'depth': 6, 'precision_score': 0.6358381502890174, 'num positive predictions': prediction
+False    1888
+True      173
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.05, 'depth': 3, 'precision_score': 0.6024096385542169, 'num positive predictions': prediction
+False    1729
+True      332
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.05, 'depth': 4, 'precision_score': 0.6096256684491979, 'num positive predictions': prediction
+False    1687
+True      374
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.05, 'depth': 6, 'precision_score': 0.6088992974238876, 'num positive predictions': prediction
+False    1634
+True      427
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.1, 'depth': 3, 'precision_score': 0.584070796460177, 'num positive predictions': prediction
+False    1609
+True      452
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.1, 'depth': 4, 'precision_score': 0.5909090909090909, 'num positive predictions': prediction
+False    1577
+True      484
+Name: count, dtype: int64}
+{'iterations': 100, 'learning_rate': 0.1, 'depth': 6, 'precision_score': 0.5666003976143141, 'num positive predictions': prediction
+False    1558
+True      503
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.01, 'depth': 3, 'precision_score': 0.6363636363636364, 'num positive predictions': prediction
+False    1808
+True      253
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.01, 'depth': 4, 'precision_score': 0.6266233766233766, 'num positive predictions': prediction
+False    1753
+True      308
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.01, 'depth': 6, 'precision_score': 0.6405797101449275, 'num positive predictions': prediction
+False    1716
+True      345
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.05, 'depth': 3, 'precision_score': 0.5882352941176471, 'num positive predictions': prediction
+False    1585
+True      476
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.05, 'depth': 4, 'precision_score': 0.5925155925155925, 'num positive predictions': prediction
+False    1580
+True      481
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.05, 'depth': 6, 'precision_score': 0.5488215488215489, 'num positive predictions': prediction
+False    1467
+True      594
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.1, 'depth': 3, 'precision_score': 0.54, 'num positive predictions': prediction
+False    1461
+True      600
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.1, 'depth': 4, 'precision_score': 0.5328947368421053, 'num positive predictions': prediction
+False    1453
+True      608
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.1, 'depth': 6, 'precision_score': 0.5206106870229008, 'num positive predictions': prediction
+False    1406
+True      655
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.01, 'depth': 3, 'precision_score': 0.629080118694362, 'num positive predictions': prediction
+False    1724
+True      337
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.01, 'depth': 4, 'precision_score': 0.6219839142091153, 'num positive predictions': prediction
+False    1688
+True      373
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.01, 'depth': 6, 'precision_score': 0.6253164556962025, 'num positive predictions': prediction
+False    1666
+True      395
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.05, 'depth': 3, 'precision_score': 0.5794573643410853, 'num positive predictions': prediction
+False    1545
+True      516
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.05, 'depth': 4, 'precision_score': 0.5771929824561404, 'num positive predictions': prediction
+False    1491
+True      570
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.05, 'depth': 6, 'precision_score': 0.5249621785173979, 'num positive predictions': prediction
+False    1400
+True      661
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.1, 'depth': 3, 'precision_score': 0.5216783216783217, 'num positive predictions': prediction
+False    1346
+True      715
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.1, 'depth': 4, 'precision_score': 0.5198237885462555, 'num positive predictions': prediction
+False    1380
+True      681
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.1, 'depth': 6, 'precision_score': 0.5105782792665726, 'num positive predictions': prediction
+False    1352
+True      709
+Name: count, dtype: int64}
+
+
+
+
+
+iterations_values = [300, 400, 500]
+learning_rate_values = [0.005, 0.01, 0.02]
+depth_values = [3, 4, 5]
+
+{'iterations': 300, 'learning_rate': 0.005, 'depth': 3, 'precision_score': 0.636986301369863, 'num positive predictions': prediction
+False    1915
+True      146
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.005, 'depth': 4, 'precision_score': 0.6569767441860465, 'num positive predictions': prediction
+False    1889
+True      172
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.005, 'depth': 5, 'precision_score': 0.6296296296296297, 'num positive predictions': prediction
+False    1845
+True      216
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.01, 'depth': 3, 'precision_score': 0.6363636363636364, 'num positive predictions': prediction
+False    1808
+True      253
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.01, 'depth': 4, 'precision_score': 0.6266233766233766, 'num positive predictions': prediction
+False    1753
+True      308
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.01, 'depth': 5, 'precision_score': 0.6132075471698113, 'num positive predictions': prediction
+False    1743
+True      318
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.02, 'depth': 3, 'precision_score': 0.6076923076923076, 'num positive predictions': prediction
+False    1671
+True      390
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.02, 'depth': 4, 'precision_score': 0.5883838383838383, 'num positive predictions': prediction
+False    1665
+True      396
+Name: count, dtype: int64}
+{'iterations': 300, 'learning_rate': 0.02, 'depth': 5, 'precision_score': 0.6004784688995215, 'num positive predictions': prediction
+False    1643
+True      418
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.005, 'depth': 3, 'precision_score': 0.6237113402061856, 'num positive predictions': prediction
+False    1867
+True      194
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.005, 'depth': 4, 'precision_score': 0.6375545851528385, 'num positive predictions': prediction
+False    1832
+True      229
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.005, 'depth': 5, 'precision_score': 0.6273764258555133, 'num positive predictions': prediction
+False    1798
+True      263
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.01, 'depth': 3, 'precision_score': 0.6363636363636364, 'num positive predictions': prediction
+False    1764
+True      297
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.01, 'depth': 4, 'precision_score': 0.6260869565217392, 'num positive predictions': prediction
+False    1716
+True      345
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.01, 'depth': 5, 'precision_score': 0.6149584487534626, 'num positive predictions': prediction
+False    1700
+True      361
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.02, 'depth': 3, 'precision_score': 0.60880195599022, 'num positive predictions': prediction
+False    1652
+True      409
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.02, 'depth': 4, 'precision_score': 0.5846867749419954, 'num positive predictions': prediction
+False    1630
+True      431
+Name: count, dtype: int64}
+{'iterations': 400, 'learning_rate': 0.02, 'depth': 5, 'precision_score': 0.5938189845474614, 'num positive predictions': prediction
+False    1608
+True      453
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.005, 'depth': 3, 'precision_score': 0.6343612334801763, 'num positive predictions': prediction
+False    1834
+True      227
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.005, 'depth': 4, 'precision_score': 0.6245353159851301, 'num positive predictions': prediction
+False    1792
+True      269
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.005, 'depth': 5, 'precision_score': 0.6308724832214765, 'num positive predictions': prediction
+False    1763
+True      298
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.01, 'depth': 3, 'precision_score': 0.629080118694362, 'num positive predictions': prediction
+False    1724
+True      337
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.01, 'depth': 4, 'precision_score': 0.6219839142091153, 'num positive predictions': prediction
+False    1688
+True      373
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.01, 'depth': 5, 'precision_score': 0.6077922077922078, 'num positive predictions': prediction
+False    1676
+True      385
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.02, 'depth': 3, 'precision_score': 0.5831485587583148, 'num positive predictions': prediction
+False    1610
+True      451
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.02, 'depth': 4, 'precision_score': 0.5874439461883408, 'num positive predictions': prediction
+False    1615
+True      446
+Name: count, dtype: int64}
+{'iterations': 500, 'learning_rate': 0.02, 'depth': 5, 'precision_score': 0.5861344537815126, 'num positive predictions': prediction
+False    1585
+True      476
+Name: count, dtype: int64}

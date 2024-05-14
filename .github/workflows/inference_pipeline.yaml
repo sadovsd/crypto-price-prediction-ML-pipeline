@@ -14,8 +14,8 @@ name: inference-pipeline
 # run this inference pipeline 30 minutes after feature pipeline to be sure that new data will be pulled
 on:
   schedule:
-    # Run at 0:30 UTC, which is 8:30PM EST
-    - cron: '30 0 * * *'
+    # Run at 1:00 UTC, which is 9:00PM EST
+    - cron: '0 1 * * *'
   workflow_dispatch:
 
 env:

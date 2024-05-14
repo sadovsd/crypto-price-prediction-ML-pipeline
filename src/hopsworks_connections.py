@@ -3,11 +3,11 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 import joblib
-
+import pandas as pd
 
 load_dotenv('../.env')
 HOPSWORKS_API_KEY = os.environ['HOPSWORKS_API_KEY']
-PROJECT_NAME = 'ethereum_returns'
+PROJECT_NAME = 'eth_returns'
 
 
 def pull_data(feature_group_name, feature_group_version, feature_view_name, feature_view_version):
@@ -48,8 +48,8 @@ def pull_data(feature_group_name, feature_group_version, feature_view_name, feat
         description='Transformed Ethereum OHLC'
     )
     data = data.sort_values(by='date', ascending=True)
-
-    # data = feature_view.create_training_data()
+    data['date'] = pd.to_datetime(data['date']).dt.date
+    data = data.reset_index(drop=True)
 
     return data
 
@@ -61,15 +61,15 @@ def pull_model(model_name, model_version):
 
     model_registry = project.get_model_registry()
 
-    model = model_registry.get_model(
+    model_specs = model_registry.get_model(
         name=model_name,
         version=model_version
     )  
 
-    model_dir = model.download()
+    model_dir = model_specs.download()
     model = joblib.load(Path(model_dir)  / f'{model_name}.pkl')
 
-    return model
+    return model, model_specs
 
 def upload_data(df, feature_group_name, feature_group_version):
 
