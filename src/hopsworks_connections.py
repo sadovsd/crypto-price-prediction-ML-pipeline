@@ -5,7 +5,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 
-load_dotenv('../.env')
+# load_dotenv('../.env')
 HOPSWORKS_API_KEY = os.environ['HOPSWORKS_API_KEY']
 PROJECT_NAME = 'eth_returns'
 
