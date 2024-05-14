@@ -3,3 +3,4 @@ python-dotenv
 hopsworks
 joblib
 scikit-learn
+catboost
