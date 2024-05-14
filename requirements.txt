@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+pytz
+matplotlib
+plotly
+scikit-learn
+hopsworks
+python-dotenv
+joblib
