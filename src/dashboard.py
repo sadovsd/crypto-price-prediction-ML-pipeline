@@ -215,41 +215,6 @@ def make_precision_score_plot(data, date_range_str):
 
     return fig
 
-def plot_and_select_date_range(data):
-    df = data.copy()
-
-    # Adjust the marker size and use container width
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=df['date'], y=df['close'], mode='lines+markers',
-        hoverinfo='text',
-        marker=dict(size=4),  # Smaller marker size
-        text=[f"Date: {date}<br>Close Price: {price}" for date, price in zip(df['date'], df['close'])]
-    ))
-    fig.update_layout(
-        title='<span style="font-size: 23px;">Ethereum Price Over Days Where Backtested Predictions Are Available</span>',
-        xaxis_title='Date',
-        yaxis_title='Close Price',
-        xaxis_tickangle=-45,
-        hovermode='closest'
-    )
-
-    # Match the graph width to the slider by setting use_container_width to True
-    st.plotly_chart(fig, use_container_width=True)
-
-    min_date, max_date = df['date'].min(), df['date'].max()
-    date_range = st.slider(
-        "Select Date Range",
-        value=(min_date, max_date),
-        format="MM/DD/YY",
-        key='date_slider'
-    )
-
-    filtered_data = df[(df['date'] >= date_range[0]) & (df['date'] <= date_range[1])]
-    date_range_str = f"{date_range[0].strftime('%Y-%m-%d')} to {date_range[1].strftime('%Y-%m-%d')}"
-
-    fig = make_precision_score_plot(filtered_data, date_range_str)
-    st.plotly_chart(fig, use_container_width=True)
 
 def plot_and_select_date_range(data):
     df = data.copy()
