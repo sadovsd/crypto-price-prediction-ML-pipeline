@@ -11,7 +11,7 @@ import numpy as np
 import plotly.graph_objects as go
 from sklearn.metrics import precision_score
 import matplotlib.patches as mpatches
-# import requests
+import requests
 
 
 ### streamlit run src/dashboard.py
@@ -32,18 +32,18 @@ current_date_est = current_date_utc.tz_convert(est)
 formatted_date = current_date_est.strftime('%m-%d-%Y, %I:%M %p')
 
 # Get current ETH price
-# response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-# data = response.json()
-# current_eth_price = data['ethereum']['usd']
+response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+data = response.json()
+current_eth_price = data['ethereum']['usd']
 
 ##### Display the title and the date header
-st.subheader(f'{formatted_date} EST')
+# st.subheader(f'{formatted_date} EST')
 # st.subheader(f'Current ETH Price: {current_eth_price}')
-# col1, col2 = st.columns(2)
-# with col1:
-#     st.subheader(f'{formatted_date} EST')
-# with col2:
-#     st.subheader(f'Current ETH Price: {current_eth_price}')
+col1, col2 = st.columns(2)
+with col1:
+    st.subheader(f'{formatted_date} EST')
+with col2:
+    st.subheader(f'Current ETH Price: {current_eth_price}')
 st.title('Ethereum Returns Forecasting')
 
 
@@ -73,17 +73,17 @@ with st.spinner(text="Getting Model Information"):
 
 ##### write predictions
 # last_date = predictions_df['date'].iloc[-1].strftime('%m/%d/%Y')
-last_date = (pd.to_datetime(predictions_df['date'].iloc[-1]) + pd.Timedelta(days=1)).strftime('%m/%d/%Y')
+next_day = (pd.to_datetime(predictions_df['date'].iloc[-1]) + pd.Timedelta(days=1)).strftime('%m/%d/%Y')
+last_day = (pd.to_datetime(predictions_df['date'].iloc[-1]) + pd.Timedelta(days=0)).strftime('%m/%d/%Y')
+
 # st.markdown(f"### CatBoost Model Predictions for {last_date}: {predictions_df['predicted_probability'].iloc[-1]} Probability of 1.0% Returns")
 st.markdown(
-    f"### CatBoost Model Predictions for {last_date}: <span style='color:green;'>{predictions_df['predicted_probability'].iloc[-1]*100:.2f}% Chance of 1.0% Returns</span>",
+    f"### CatBoost Model Predictions for {next_day}: <span style='color:green;'>{predictions_df['predicted_probability'].iloc[-1]*100:.2f}% Chance of 1.0% Returns from {last_day} close of {predictions_df['close'].iloc[-1]:.2f}</span>",
     unsafe_allow_html=True
 )
 st.write("")
 st.write("")
 st.write("")
-st.write("")
-
 
 def make_price_and_probability_plot(data, last_n_days):
 

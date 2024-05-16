@@ -5,26 +5,9 @@ from pathlib import Path
 import joblib
 import pandas as pd
 
-# import logging
-# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-# def log_env_vars():
-#     for key in os.environ.keys():
-#         # This will filter out any key that contains sensitive words
-#         if "KEY" in key or "SECRET" in key or "PASSWORD" in key:
-#             value = "Hidden for security"
-#         else:
-#             value = os.environ[key]
-#         logging.info(f"{key}: {value}")
-# try:
-#     HOPSWORKS_API_KEY = os.environ['HOPSWORKS_API_KEY']
-# except KeyError:
-#     log_env_vars()  # Log environment variables if the key is not found
-#     raise RuntimeError("HOPSWORKS_API_KEY environment variable not set.")
 
 load_dotenv('../.env')
-# HOPSWORKS_API_KEY = os.environ['HOPSWORKS_API_KEY']
-
-HOPSWORKS_API_KEY = 'lQR78o03SLI8vHKI.xGZVRnGEQJEqcnHMSvL4SReUFG9KEjCp3TaKhQvh2K3qj2Ptp5gRZbVTMZm8K4of'
+HOPSWORKS_API_KEY = os.environ['HOPSWORKS_API_KEY']
 PROJECT_NAME = 'eth_returns'
 
 
