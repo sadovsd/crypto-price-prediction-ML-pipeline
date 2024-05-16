@@ -2,7 +2,7 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 import pandas as pd
-from hopsworks_connections import pull_data, pull_model
+from hopsworks_connections_streamlit import pull_data, pull_model
 import pytz
 from datetime import datetime, timedelta
 from matplotlib import pyplot as plt
