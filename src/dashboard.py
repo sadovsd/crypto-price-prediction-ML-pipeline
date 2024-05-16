@@ -36,6 +36,9 @@ current_eth_price = 'xxxx'
 # response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
 # data = response.json()
 # current_eth_price = data['ethereum']['usd']
+response = requests.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+data = response.json()
+current_eth_price = data['USD']
 
 ##### Display the title and the date header
 # st.subheader(f'{formatted_date} EST')
