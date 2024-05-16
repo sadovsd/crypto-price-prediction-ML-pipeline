@@ -11,7 +11,7 @@ import numpy as np
 import plotly.graph_objects as go
 from sklearn.metrics import precision_score
 import matplotlib.patches as mpatches
-import requests
+# import requests
 
 
 ### streamlit run src/dashboard.py
@@ -32,28 +32,28 @@ current_date_est = current_date_utc.tz_convert(est)
 formatted_date = current_date_est.strftime('%m-%d-%Y, %I:%M %p')
 
 # Get current ETH price
-response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-data = response.json()
-current_eth_price = data['ethereum']['usd']
+# response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+# data = response.json()
+# current_eth_price = data['ethereum']['usd']
 
 ##### Display the title and the date header
-# st.subheader(f'{formatted_date} EST')
+st.subheader(f'{formatted_date} EST')
 # st.subheader(f'Current ETH Price: {current_eth_price}')
-col1, col2 = st.columns(2)
-with col1:
-    st.subheader(f'{formatted_date} EST')
-with col2:
-    st.subheader(f'Current ETH Price: {current_eth_price}')
+# col1, col2 = st.columns(2)
+# with col1:
+#     st.subheader(f'{formatted_date} EST')
+# with col2:
+#     st.subheader(f'Current ETH Price: {current_eth_price}')
 st.title('Ethereum Returns Forecasting')
 
 
-# @st.cache_data
+@st.cache_data
 def get_prediction_data():
     predictions_df = pull_data('eth_ohlc_predictions', 2, 'eth_ohlc_predictions_view', 2)
     predictions_df['date'] = pd.to_datetime(predictions_df['date']).dt.date
     return predictions_df
 
-# @st.cache_data
+@st.cache_data
 def get_model_specs():
     model_specs = pull_model('catboost_eth_returns', 1)[1]
     timestamp = model_specs.created

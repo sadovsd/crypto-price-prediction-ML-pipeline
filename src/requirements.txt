@@ -9,4 +9,3 @@ hopsworks
 python-dotenv
 joblib
 catboost
-requests
