@@ -32,9 +32,10 @@ current_date_est = current_date_utc.tz_convert(est)
 formatted_date = current_date_est.strftime('%m-%d-%Y, %I:%M %p')
 
 # Get current ETH price
-response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-data = response.json()
-current_eth_price = data['ethereum']['usd']
+current_eth_price = 'xxxx'
+# response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+# data = response.json()
+# current_eth_price = data['ethereum']['usd']
 
 ##### Display the title and the date header
 # st.subheader(f'{formatted_date} EST')
