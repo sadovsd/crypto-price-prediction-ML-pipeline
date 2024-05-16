@@ -11,6 +11,7 @@ import numpy as np
 import plotly.graph_objects as go
 from sklearn.metrics import precision_score
 import matplotlib.patches as mpatches
+import requests
 
 
 ### streamlit run src/dashboard.py
@@ -24,15 +25,25 @@ progress_bar = st.sidebar.header('⚙️ Hopsworks Feature Store Data Retrieval'
 progress_bar = st.sidebar.progress(0)
 N_STEPS = 2
 
-# Convert UTC to EST
+# Get the current time in EST
 current_date_utc = pd.to_datetime(datetime.utcnow(), utc=True).floor('T')
 est = pytz.timezone('America/New_York')
 current_date_est = current_date_utc.tz_convert(est)
-# Format the date string as MM-DD-YYYY, HH:MM AM/PM
 formatted_date = current_date_est.strftime('%m-%d-%Y, %I:%M %p')
 
+# Get current ETH price
+response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+data = response.json()
+current_eth_price = data['ethereum']['usd']
+
 ##### Display the title and the date header
-st.subheader(f'{formatted_date} EST')
+# st.subheader(f'{formatted_date} EST')
+# st.subheader(f'Current ETH Price: {current_eth_price}')
+col1, col2 = st.columns(2)
+with col1:
+    st.subheader(f'{formatted_date} EST')
+with col2:
+    st.subheader(f'Current ETH Price: {current_eth_price}')
 st.title('Ethereum Returns Forecasting')
 
 
@@ -240,10 +251,48 @@ def plot_and_select_date_range(data):
     fig = make_precision_score_plot(filtered_data, date_range_str)
     st.plotly_chart(fig, use_container_width=True)
 
+def plot_and_select_date_range(data):
+    df = data.copy()
+
+    # Adjust the marker size and use container width
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df['date'], y=df['close'], mode='lines+markers',
+        hoverinfo='text',
+        marker=dict(size=4),  # Smaller marker size
+        text=[f"Date: {date}<br>Close Price: {price}" for date, price in zip(df['date'], df['close'])]
+    ))
+    fig.update_layout(
+        title='<span style="font-size: 23px;">Ethereum Price Over Days Where Backtested Predictions Are Available</span>',
+        xaxis_title='Date',
+        yaxis_title='Close Price',
+        xaxis_tickangle=-45,
+        hovermode='closest'
+    )
+
+    # Match the graph width to the input fields by setting use_container_width to True
+    st.plotly_chart(fig, use_container_width=True)
+
+    min_date, max_date = df['date'].min(), df['date'].max()
+
+    # Input fields for start and end dates
+    start_date = st.date_input("Start Date", min_date, min_value=min_date, max_value=max_date)
+    end_date = st.date_input("End Date", max_date, min_value=min_date, max_value=max_date)
+
+    # Ensure start_date is before end_date
+    if start_date > end_date:
+        st.error("Error: End Date must fall after Start Date.")
+        return
+
+    filtered_data = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
+    date_range_str = f"{start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+
+    fig = make_precision_score_plot(filtered_data, date_range_str)
+    st.plotly_chart(fig, use_container_width=True)
 
 st.title('Historical Model Performance')
 st.markdown(
-    f"#### This CatBoost Model Was Trained on Data from 2015-11-15 to {model_specs}<br>Backtested Predictions are Available From 2018-08-11 to {model_specs}",
+    f"#### This CatBoost Model Was Trained on Data from 2015-11-15 to {model_specs}<br>Backtested Predictions are Available From 2018-08-11 to {predictions_df[:-1]['date'].max()}",
     unsafe_allow_html=True
 )
 plot_and_select_date_range(predictions_df[:-1])
