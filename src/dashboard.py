@@ -51,13 +51,13 @@ with col2:
 st.title('Ethereum Returns Forecasting')
 
 
-@st.cache_data
+# @st.cache_data
 def get_prediction_data():
     predictions_df = pull_data('eth_ohlc_predictions', 2, 'eth_ohlc_predictions_view', 2)
     predictions_df['date'] = pd.to_datetime(predictions_df['date']).dt.date
     return predictions_df
 
-@st.cache_data
+# @st.cache_data
 def get_model_specs():
     model_specs = pull_model('catboost_eth_returns', 1)[1]
     timestamp = model_specs.created
