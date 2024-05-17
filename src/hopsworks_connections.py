@@ -7,9 +7,9 @@ import pandas as pd
 
 
 load_dotenv('../.env')
+# HOPSWORKS_API_KEY=lQR78o03SLI8vHKI.xGZVRnGEQJEqcnHMSvL4SReUFG9KEjCp3TaKhQvh2K3qj2Ptp5gRZbVTMZm8K4of
 HOPSWORKS_API_KEY = os.environ['HOPSWORKS_API_KEY']
 PROJECT_NAME = 'eth_returns'
-
 
 def pull_data(feature_group_name, feature_group_version, feature_view_name, feature_view_version):
     
