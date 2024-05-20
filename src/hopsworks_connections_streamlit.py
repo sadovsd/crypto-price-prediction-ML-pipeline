@@ -4,8 +4,8 @@ import joblib
 import pandas as pd
 import streamlit as st
 
-# HOPSWORKS_API_KEY = st.secrets["secrets"]["HOPSWORKS_API_KEY"]
-HOPSWORKS_API_KEY = st.secrets["HOPSWORKS_API_KEY"]
+HOPSWORKS_API_KEY = st.secrets["secrets"]["HOPSWORKS_API_KEY"]
+# HOPSWORKS_API_KEY = st.secrets["HOPSWORKS_API_KEY"]
 
 PROJECT_NAME = 'eth_returns'
 
